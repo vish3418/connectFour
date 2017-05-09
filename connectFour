@@ -1,0 +1,433 @@
+import java.util.Scanner;
+/**
+ * Connect4 is a two player game where the users take turns in placing an '0'(user1) and a 'X'(user2) into the connect4 game board. When a user gets four X's or O's in a row in
+ * any horizontal, vertical or diagonal direction he/she wins! The program will allow the user to play this game
+ * 
+ * @Vishva Pandya, pandyav@purdue.edu
+ * 10/14/16
+ */
+public class Connect4
+{
+    private char red;
+    private char yellow;
+    private char empty; 
+    private char[][] board;
+    public Connect4()
+    {
+       red = '0';
+       yellow = 'X';
+       empty = ' ';
+       board = new char[6][7]; 
+       for(int i = 0; i < board.length; i++)
+        {
+            for(int j = 0; j < board[i].length; j++)
+            {
+                board[i][j] = empty;
+            }
+        }
+    }
+    public char[][] getBoard()
+    {
+        return board.clone();
+    }
+    public int putPiece(int column, char color)
+    {
+        int i = -1;
+        if(column > 6 || column < 0)
+        {
+            return i;
+        }
+        for(i = 5; i >= 0; i--)
+        {
+            if(board[i][column] == empty)
+            {
+                board[i][column] = color;
+                return i;
+            }
+        }
+        return i;
+    }
+    public char checkAlignment(int row, int column)
+    {
+        //horizontal alignment
+        char a = board[row][column];
+        char noWinner = ' ';
+        int counter = 0;
+        
+        
+          //horizontal
+           for(int i = 1; i < 7; i++)
+          {
+            if((board[row][i] == a && board[row][i-1] == a) && board[row][i] != ' ')
+            {
+                counter++;
+                
+                if(counter == 3)
+                {
+                    return a;
+                }
+            }
+            else 
+            {
+            counter = 0;
+           }
+          }
+           
+          //vertical
+          for(int i = 1; i < 6; i++)
+          {
+            if((board[i][column] == a && board[i-1][column] == a) && board[i][column] != ' ')
+            {
+                counter++;
+               
+                if(counter == 3)
+                {
+                    return a;
+                }
+            }
+            else 
+            {
+                counter = 0;
+            }   
+          }
+          //diagonal down 
+            if(row - column == 2)
+            {
+              int i = 2;
+              for(int j = 0; j < 3; j++)
+              {
+                  if(board[i][j] == board[i+1][j+1] && board[i][j] != ' ')
+                  {
+                      counter++;
+                  
+                  if(counter == 3)
+                  {
+                      return a;
+                  }
+                }
+                else 
+                {
+                    counter = 0;
+                }
+                i++;
+              }
+            }
+            if(row - column == 1)
+            {
+                int i = 1;
+            for(int j = 0; j < 4; j++)
+            {
+                if(board[i][j] == board[i+1][j+1] && board[i][j] != ' ')
+                {
+                    counter++;
+                    
+                    if(counter == 3)
+                    {
+                        return a;
+                    }
+                }
+                else 
+                {
+                    counter = 0;
+                }
+                i++;
+            }
+           }
+          
+            if(row - column == 0)
+            {
+                int i = 0;
+              for(int j = 0; j < 5; j++)
+                {
+                  if(board[i][j] == board[i+1][j+1] && board[i][j] != ' ')
+                  {
+                      counter++;
+                      
+                      if(counter == 3)
+                      {
+                          return a;
+                      }
+                  }
+                  else 
+                  {
+                      counter = 0;
+                  }
+                  i++;
+                }
+            } 
+            if(row - column == -1)
+            {
+                int j = 1;
+                for(int i = 0; i < 5; i++)
+                {
+                    if(board[i][j] == board[i+1][j+1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else 
+                    {
+                        counter = 0;
+                    }
+                    j++;
+                }
+            
+            }
+            if(row - column == -2)
+            {
+                int j = 2;
+                for(int i = 0; i < 4; i++)
+                {
+                    if(board[i][j] == board[i+1][j+1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    j++;
+                }
+            } 
+            if(row - column == -3)
+            {
+                int j = 3;
+                for(int i = 0; i < 3; i++)
+                {
+                    if(board[i][j] == board[i+1][j+1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    j++;
+                }
+            }
+            //diagonal up
+            if(row + column == 3)
+            {
+                int i = 0;
+                for(int j = 3; j > 0; j--)
+                {
+                    if(board[i][j] == board[i+1][j-1] && board[i][j] != ' ')
+                {
+                    counter++;
+                   
+                    if(counter == 3)
+                    {
+                        return a;
+                    }
+                }   
+                else 
+                {
+                    counter = 0;
+                }
+                i++;
+               }
+            }
+            if(row + column == 4)
+            {
+                int i = 0;
+                for(int j = 4; j > 0; j--)
+                {
+                    if(board[i][j] == board[i+1][j-1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    i++;
+                }
+            }
+            if(row + column == 5)
+            {
+                int i = 0;
+                for(int j = 5; j > 0; j--)
+                {
+                    if(board[i][j] == board[i+1][j-1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                   
+                        if(counter == 3)
+                        {
+                            return a; 
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    i++;
+                }
+            }
+            if(row + column == 6)
+            {
+                int i = 0;
+                for(int j = 6; j > 1; j--)
+                {
+                    if(board[i][j] == board[i+1][j-1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    i++;
+                }
+            }
+            if(row + column == 7)
+            {
+                int i = 1; 
+                for(int j = 6; j > 2; j--)
+                {
+                    if(board[i][j] == board[i+1][j-1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    i++;
+                }
+            }
+            if(row + column == 8)
+            {
+                int i = 2; 
+                for(int j = 6; j > 3; j--)
+                {
+                    if(board[i][j] == board[i+1][j-1] && board[i][j] != ' ')
+                    {
+                        counter++;
+                        if(counter == 3)
+                        {
+                            return a;
+                        }
+                    }
+                    else
+                    {
+                        counter = 0;
+                    }
+                    i++;
+                }
+            }
+            if(counter < 3)
+            {
+                return noWinner;
+            }
+            else
+            {
+                return noWinner;
+            }
+        }
+       
+    public void printScreen()
+    {
+        char[][] array1 = new char[6][7];
+        array1 = getBoard();
+        System.out.print("    0    1    2    3    4    5    6");
+        System.out.println();
+        System.out.println("  -----------------------------------");
+        char a = 'A';
+        for(int i = 0; i < array1.length; i++)
+        {
+            System.out.print(a + " |");
+            for(int j = 0; j < array1[i].length; j++)
+            {
+                System.out.print(" " + array1[i][j] + " | ");
+            }
+            System.out.println();
+            System.out.println("  -----------------------------------");
+            a++;
+       }
+    }
+    public void play()
+    {
+        
+        int counter = 2;
+        char r = 'r';
+        char y = 'y';
+        char winner = ' ';
+        while(winner != 'X' && winner != '0')
+        {
+            if(counter % 2 == 0)
+            {
+                printScreen();
+                Scanner input = new Scanner(System.in);
+                System.out.println("Curren Player: '0'");
+                System.out.println("Choose a column: ");
+                int num1 = input.nextInt();
+                int row = putPiece(num1, '0');
+                while(row == -1)
+                {
+                    System.out.println("Invalid column number, choose again: ");
+                    num1 = input.nextInt();
+                    row = putPiece(num1, '0');
+                }
+                winner = checkAlignment(row, num1);
+                counter++;
+            } 
+            
+            else if(counter % 2 == 1)
+            {
+                printScreen();
+                Scanner input = new Scanner(System.in);
+                System.out.println("Current Player: 'X'");
+                System.out.println("Choose a column: ");
+                int num2 = input.nextInt();
+                int row2 = putPiece(num2, 'X');
+                while(row2 == -1)
+                {
+                    System.out.println("Invalid column number, choose again: ");
+                    num2 = input.nextInt();
+                    row2 = putPiece(num2, 'X');
+                }
+                winner = checkAlignment(row2, num2);
+                counter++;
+            } 
+        }
+        printScreen();
+        if(winner == 'X')
+        {
+            System.out.println("Winner is player" + winner);
+        }
+        if(winner == '0')
+        {
+            System.out.println("Winner is player" + winner);
+        }
+        
+        
+}
+}
